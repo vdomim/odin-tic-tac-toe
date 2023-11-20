@@ -54,8 +54,9 @@ const createPlayer =  function (name, token) {
     const getName = () => name
     const getWins = () => wins
     const addWins = () => wins++
+    const resetWins = () => wins = 0
 
-    return {getToken, getName, getWins, addWins}
+    return {getToken, getName, getWins, addWins, resetWins}
 }
 
 const player1 = createPlayer("Player 1", "X")
@@ -64,14 +65,22 @@ var activePlayer = player1
 
 const Game = (function() {
     const score = [0, 0]
+    let ended = false
 
     GameBoard.initGameBoard()
     GameBoard.displayGameBoard();
     
     function playRound(row, col) {
-        GameBoard.addMark(row, col, activePlayer)
-        switchPlayerActive()
-        console.log("🚀 ~ file: script.js:67 ~ Game ~ checkWin():", checkWin())
+        if(!ended){
+            GameBoard.addMark(row, col, activePlayer)
+            if(checkWin()){
+                console.log("🚀 ~ file: script.js:67 ~ Game ~ checkWin():", checkWin())
+                ended = true
+                activePlayer.addWins()
+                DisplayController.updateScore()
+            }
+            switchPlayerActive()
+        }
     }
 
     function checkWin(){
@@ -107,23 +116,56 @@ const Game = (function() {
         console.log("Changin the player");
     }
 
-    return {switchPlayerActive, playRound}
+    const getEnded = () => ended
+    const setEnded = (state) => {
+        ended = state 
+    }
+
+    return {switchPlayerActive, playRound, getEnded, setEnded}
 })();
 
 
 const DisplayController = (function () {
     const cells = document.querySelectorAll(".cell")
+    const player1score = document.querySelector(".player-one-data .player-score")
+    const player2score = document.querySelector(".player-two-data .player-score")
+    const reset = document.querySelector(".button-section .reset")
+    
+    reset.addEventListener('click', () => {
+        console.log("Reset");
+        GameBoard.clearGameBoard()
+        cells.forEach(cell => {
+            cell.textContent = ''
+            cell.classList.remove('checked')
+        })
+        activePlayer = player1
+        player1.resetWins()
+        player2.resetWins()
+        player1score.textContent = 'Score: 0'
+        player2score.textContent = 'Score: 0'
+        Game.setEnded(false)
+        console.log(Game.getEnded());
+    })
+
     cells.forEach(cell => {
         const row = cell.dataset.row
         const col = cell.dataset.col
         cell.addEventListener('click', () =>{
             console.log(cell.dataset.row);
             console.log(cell.dataset.col);
-            if(!cell.classList.contains( 'checked')){
+            if(!cell.classList.contains( 'checked') && !Game.getEnded()){
                 cell.textContent = activePlayer.getToken()
                 Game.playRound(row, col)
                 cell.classList.add('checked')
             }
         })
     })
+
+    const updateScore = function () {
+        console.log("update score");
+        player1score.textContent = `Score: ${player1.getWins()}`
+        player2score.textContent = `Score: ${player2.getWins()}`
+    }
+
+    return {updateScore}
 })()

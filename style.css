@@ -2,6 +2,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: 'Varela Round', sans-serif;;
 }
 
 header{
@@ -16,6 +17,7 @@ main{
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
 }
 
 .tableBoard{
@@ -27,9 +29,25 @@ main{
 
 .cell{
     border: 1px solid;
+    font-size: 170px;
+    text-align: center;
 }
 
 .cell:hover{
     cursor: pointer;
     background-color: azure;
+}
+
+.button-section{
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.button-section button{
+    height: 50px;
+    width: 100px;
+    border-radius: 12px;
+    cursor: pointer;
 }
