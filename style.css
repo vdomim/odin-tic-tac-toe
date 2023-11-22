@@ -2,7 +2,12 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Varela Round', sans-serif;;
+    font-family: 'Varela Round', sans-serif;
+}
+
+body{
+    position: relative;
+    width: 100%;
 }
 
 header{
@@ -18,6 +23,7 @@ main{
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    width: 100%;
 }
 
 .tableBoard{
@@ -25,6 +31,21 @@ main{
     grid-template-columns: repeat(3, 200px);
     grid-template-rows: repeat(3, 200px);
     border: 1px solid;
+}
+
+.player-board{
+    display: flex;
+    align-items: flex-start;
+    gap: 3rem;
+    margin: 2rem;
+}
+
+.player-one-data, .player-two-data{
+    flex: 1;
+}
+
+.player-name, .player-score{
+    font-size: 50px;
 }
 
 .cell{
@@ -50,4 +71,27 @@ main{
     width: 100px;
     border-radius: 12px;
     cursor: pointer;
+}
+
+dialog {
+    top: 40%;
+    width: 100%;
+    height: 100px;
+    text-align: center;
+    margin-left: 20px;
+
+}
+
+.dialog-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+}
+
+.dialog-content button {
+    padding: 6px 12px;
+    width: 100px;
 }

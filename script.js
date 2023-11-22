@@ -78,6 +78,7 @@ const Game = (function() {
                 ended = true
                 activePlayer.addWins()
                 DisplayController.updateScore()
+                DisplayController.finishRound()
             }
             switchPlayerActive()
         }
@@ -130,20 +131,47 @@ const DisplayController = (function () {
     const player1score = document.querySelector(".player-one-data .player-score")
     const player2score = document.querySelector(".player-two-data .player-score")
     const reset = document.querySelector(".button-section .reset")
+    const dialog = document.querySelector('dialog')
+    const dialogWiner = document.querySelector('.dialog-player-win')
+    const btnQuit = document.querySelector('.quit-buton')
+    const btnNextRound = document.querySelector('.next-round')
+    console.log("🚀 ~ file: script.js:138 ~ DisplayController ~ btnNextRound:", btnNextRound)
     
-    reset.addEventListener('click', () => {
-        console.log("Reset");
+    btnNextRound.addEventListener('click', () => {
         GameBoard.clearGameBoard()
+        clearDisplayBoard()
+        dialog.close()
+    })
+
+    btnQuit.addEventListener('click', () => {
+        console.log("Quit");
+        GameBoard.clearGameBoard()
+        clearDisplayBoard()
+        resetPlayers()
+        dialog.close()
+    })
+
+    function clearDisplayBoard() {
         cells.forEach(cell => {
             cell.textContent = ''
             cell.classList.remove('checked')
+            Game.setEnded(false)
+            activePlayer = player1
         })
-        activePlayer = player1
+    }
+
+    function resetPlayers() {
         player1.resetWins()
         player2.resetWins()
         player1score.textContent = 'Score: 0'
         player2score.textContent = 'Score: 0'
-        Game.setEnded(false)
+    }
+
+    reset.addEventListener('click', () => {
+        console.log("Reset");
+        GameBoard.clearGameBoard()
+        clearDisplayBoard()
+        resetPlayers()
         console.log(Game.getEnded());
     })
 
@@ -167,5 +195,10 @@ const DisplayController = (function () {
         player2score.textContent = `Score: ${player2.getWins()}`
     }
 
-    return {updateScore}
+    const finishRound = function () {
+        dialogWiner.textContent = `${activePlayer.getName()} Wins`
+        dialog.showModal()
+    }
+
+    return {updateScore, finishRound}
 })()
