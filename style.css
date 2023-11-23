@@ -8,13 +8,20 @@
 body{
     position: relative;
     width: 100%;
+    background-color: #374151;
 }
 
 header{
-    height: 10vh;
+    height: 200px;
     display: flex;
     justify-content: center;
     align-items: center;
+    background-color: #1f2937;
+}
+
+header p {
+    font-size: 100px;
+    color: #e5e7eb;
 }
 
 main{
@@ -31,6 +38,8 @@ main{
     grid-template-columns: repeat(3, 200px);
     grid-template-rows: repeat(3, 200px);
     border: 1px solid;
+    background-color: #9ca3af;
+    box-shadow: black 2px 3px 7px 1px;
 }
 
 .player-board{
@@ -38,6 +47,11 @@ main{
     align-items: flex-start;
     gap: 3rem;
     margin: 2rem;
+    background-color: #9ca3af;
+    border: 2px solid black;
+    border-radius: 12px;
+    padding: 10px;
+    box-shadow: black 2px 3px 7px 1px;
 }
 
 .player-one-data, .player-two-data{
@@ -56,7 +70,7 @@ main{
 
 .cell:hover{
     cursor: pointer;
-    background-color: azure;
+    background-color: #d1d5db;
 }
 
 .button-section{
@@ -64,13 +78,19 @@ main{
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-top: 20px;
 }
 
-.button-section button{
-    height: 50px;
-    width: 100px;
+.reset{
     border-radius: 12px;
     cursor: pointer;
+    font-size: 50px;
+    padding: 8px 12px;
+    background-color: #9ca3af;
+}
+
+.reset:hover{
+    background-color: #d1d5db;
 }
 
 dialog {

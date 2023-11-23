@@ -3,12 +3,16 @@ const GameBoard = (function () {
     const gameBoard = []
     const numFilas = 3
     const numCols = 3
-    
+    const TOTAL_CELLS = 9
+    let cellsChecked = 0
+
     const addMark = function (fila, columna, player) {
         if(gameBoard[fila][columna]!==" "){
             console.log("Casilla ocupada");
         }else{
             gameBoard[fila][columna] = player.getToken()
+            cellsChecked++
+            console.log("🚀 ~ file: script.js:15 ~ addMark ~ cellsChecked:", cellsChecked)
         }
         displayGameBoard()
     }
@@ -25,6 +29,8 @@ const GameBoard = (function () {
     const getGameBoard = () => gameBoard
     const getNumRows = () => numFilas
     const getNumCols = () => numCols
+    const getCellsChecked = () => cellsChecked
+    const resetCellsChecked = () => cellsChecked = 0
 
     const displayGameBoard = function () {
         for (let i = 0; i < numFilas; i++) {
@@ -43,7 +49,7 @@ const GameBoard = (function () {
         displayGameBoard()
     }
 
-    return {displayGameBoard, getGameBoard, addMark, clearGameBoard, initGameBoard, getNumRows, getNumCols}
+    return {displayGameBoard, getGameBoard, addMark, clearGameBoard, initGameBoard, getNumRows, getNumCols, getCellsChecked, resetCellsChecked, TOTAL_CELLS}
 })();
 
 
@@ -78,8 +84,18 @@ const Game = (function() {
                 ended = true
                 activePlayer.addWins()
                 DisplayController.updateScore()
+                GameBoard.resetCellsChecked()
                 DisplayController.finishRound()
             }
+
+            console.log("🚀 ~ file: script.js:92 ~ playRound ~ GameBoard.TOTAL_CELLS:", GameBoard.TOTAL_CELLS)
+            console.log("🚀 ~ file: script.js:93 ~ playRound ~ GameBoard.getCellsChecked():", GameBoard.getCellsChecked())
+            if(GameBoard.getCellsChecked() === GameBoard.TOTAL_CELLS){
+                ended = true
+                GameBoard.resetCellsChecked()
+                DisplayController.tieRound()
+            }
+
             switchPlayerActive()
         }
     }
@@ -170,6 +186,7 @@ const DisplayController = (function () {
     reset.addEventListener('click', () => {
         console.log("Reset");
         GameBoard.clearGameBoard()
+        GameBoard.resetCellsChecked()
         clearDisplayBoard()
         resetPlayers()
         console.log(Game.getEnded());
@@ -200,5 +217,10 @@ const DisplayController = (function () {
         dialog.showModal()
     }
 
-    return {updateScore, finishRound}
+    const tieRound = function () {
+        dialogWiner.textContent = `Tie!!`
+        dialog.showModal()
+    }
+
+    return {updateScore, finishRound, tieRound}
 })()
