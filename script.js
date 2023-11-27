@@ -171,6 +171,8 @@ const DisplayController = (function () {
         cells.forEach(cell => {
             cell.textContent = ''
             cell.classList.remove('checked')
+            cell.classList.remove('x')
+            cell.classList.remove('o')
             Game.setEnded(false)
             activePlayer = player1
         })
@@ -200,6 +202,7 @@ const DisplayController = (function () {
             console.log(cell.dataset.col);
             if(!cell.classList.contains( 'checked') && !Game.getEnded()){
                 cell.textContent = activePlayer.getToken()
+                cell.classList.add(activePlayer.getToken().toLowerCase())
                 Game.playRound(row, col)
                 cell.classList.add('checked')
             }
@@ -213,7 +216,7 @@ const DisplayController = (function () {
     }
 
     const finishRound = function () {
-        dialogWiner.textContent = `${activePlayer.getName()} Wins`
+        dialogWiner.textContent = `${activePlayer.getName()} Wins!!`
         dialog.showModal()
     }
 
