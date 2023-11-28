@@ -131,6 +131,13 @@ dialog {
     font-size: 50px;
 }
 
+.button-container {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
 footer {
     height: 50px;
     font-size: 20px;
